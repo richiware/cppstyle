@@ -1,43 +1,39 @@
-# Guía de estilo para el lenguaje C++
-
-## Contenido
-
 <!-- TOC GitLab -->
 
-    - [Formato](#formato)
-        - [Codificación de carácteres](#codificación-de-carácteres)
-        - [Longitud de línea](#longitud-de-línea)
-        - [Espaciado](#espaciado)
-        - [Llaves](#llaves)
-        - [Funciones](#funciones)
-        - [Condicionales](#condicionales)
-        - [Namespaces](#namespaces)
-    - [Nombrado](#nombrado)
-        - [Reglas generales](#reglas-generales)
-        - [Tipos](#tipos)
-        - [Variables](#variables)
-            - [Miembros de una clase](#miembros-de-una-clase)
-            - [Miembros de una estructura](#miembros-de-una-estructura)
-        - [Variables globales](#variables-globales)
-        - [Funciones](#funciones-1)
-        - [Ficheros](#ficheros)
+- [Formato](#formato)
+    - [Codificación de carácteres](#codificación-de-carácteres)
+    - [Longitud de línea](#longitud-de-línea)
+    - [Espaciado](#espaciado)
+    - [Llaves](#llaves)
+    - [Funciones](#funciones)
+    - [Condicionales](#condicionales)
+    - [Namespaces](#namespaces)
+- [Nombrado](#nombrado)
+    - [Reglas generales](#reglas-generales)
+    - [Tipos](#tipos)
+    - [Variables](#variables)
+        - [Miembros de una clase](#miembros-de-una-clase)
+        - [Miembros de una estructura](#miembros-de-una-estructura)
+    - [Variables globales](#variables-globales)
+    - [Funciones](#funciones-1)
+    - [Ficheros](#ficheros)
 - [Código](#código)
     - [Punteros y referencias](#punteros-y-referencias)
     - [Puntero nulo](#puntero-nulo)
 
 <!-- /TOC -->
 
-## Formato
+# Formato
 
-### Codificación de carácteres
+## Codificación de carácteres
 
 Es obligatorio usar la codificación de carácteres UTF-8.
 
-### Longitud de línea
+## Longitud de línea
 
 Cada línea de texto en el código debe tener como mucho 120 caracteres de largo.
 
-### Espaciado
+## Espaciado
 
 * Se tiene que indentar usando 4 espacios, nunca indentando con tabuladores.
 Casi todos los editores actuales soportan configurarlo.
@@ -47,7 +43,7 @@ Casi todos los editores actuales soportan configurarlo.
 significa que el método puede ser dividido en métodos más pequeños).
 También es aconsejable un comentario por cada bloque que defina una funcionalidad, explicando lo que hace.
 
-### Llaves
+## Llaves
 
 Los métodos o cualquier otro bloque de código que utilice llaves (`if`/`else`/`switch`/`while` etc.) deben de abrirse
 y cerrarse siempre en una nueva línea.
@@ -107,7 +103,7 @@ void func(
 
 Además las llaves son obligatorias incluso cuando solo hay una sola sentencia en el bloque.
 
-### Funciones
+## Funciones
 
 A excepción de las funciones con un único parámetro, los parámetros de un método no deben estar en la misma línea que
 define al método y además cada parámetro debe estar en su propia línea.
@@ -116,6 +112,8 @@ Con ello se busca la facilidad de indentación en editores exclusivamente texto 
 
 El paréntesis de cierre estará a la altura del último parámetro. Así se evita mejor que se intercambie el último
 parámetro por otro sin detectar el cambio de coma.
+
+Esto aplica tanto a la declaración como a la definiciones de la función.
 
 Las definiciones de los métodos tienen que empezar al principio de la línea.
 
@@ -155,7 +153,7 @@ void function_with_the_name_so_large(int param1)
 }
 ```
 
-### Condicionales
+## Condicionales
 
 Los condicionales deben de tener siempre llaves, incluso cuando no sean necesarias se deben de utilizar (por ejemplo,
 cuando sólo hay una línea de código).
@@ -200,7 +198,7 @@ else
 }
 ```
 
-### Namespaces
+## Namespaces
 
 El código periférico de un bloque ``namespace`` (y cualquiera anidado) no debe estar indentado.
 Ademas la llame de apertura debe estar en la misma línea que la declaración del ``namespace``.
@@ -220,9 +218,9 @@ class IPv4
 }
 ```
 
-## Nombrado
+# Nombrado
 
-### Reglas generales
+## Reglas generales
 
 Los nombres tienen que ser descriptivos, intentando evitar las abreviaciones.
 El nombre debe comunicar de la manera más explicita que es la variable y la información pertinente para que un
@@ -239,7 +237,7 @@ int nerr;
 int s_size;
 ```
 
-### Tipos
+## Tipos
 
 Los tipos seguiran la regla *CamelCase*, es decir, la primera letra es en mayúscula y las letras de inicio de palabra
 también mayúscula.
@@ -254,17 +252,17 @@ void clean_space(
 ```
 
 
-### Variables
+## Variables
 
 El nombre de las variables (incluyendo los argumentos de una función) y los miembros de tipos tienen que estar en
 minúsculas, con subrayado entre las palabras.
 
 ```c++
-string tablename;
+string table_name;
 long row_count;
 ```
 
-#### Miembros de una clase
+### Miembros de una clase
 
 Todos los miembros de una clase deben ser privados.
 Siguen las reglas de nombrado pero añadiendoles un subrayado al final.
@@ -278,7 +276,7 @@ class Table
 {
     public:
 
-    void row_count(long count) { row_count_ = _count; }
+    void row_count(long count) { row_count_ = count; }
 
     long row_count() const { return row_count_; }
 
@@ -300,7 +298,7 @@ class Table
 };
 ```
 
-#### Miembros de una estructura
+### Miembros de una estructura
 
 Los miembros de una estructura siguen las reglas de nombrado de variables.
 
@@ -312,7 +310,7 @@ struct TableRow
 };
 ```
 
-### Variables globales
+## Variables globales
 
 Las variables globales siguen las reglas de nombrado de variables pero añadiendoles un prefijo `g_`.
 
@@ -321,7 +319,7 @@ Las variables globales siguen las reglas de nombrado de variables pero añadiend
 int g_active_threads = 0;
 ```
 
-### Funciones
+## Funciones
 
 El nombre de las funciones tienen que estar en minúsculas, con subrayado entre las palabras.
 
@@ -331,7 +329,7 @@ void set_row_content(std::string content);
 bool increase_one_row_above();
 ```
 
-### Ficheros
+## Ficheros
 
 Las extensiones usadas para código C++ serán `.hpp` y `.cpp`.
 Las extensiones usadas para código C serán `.h` y `.c`.
