@@ -11,14 +11,17 @@
 - [Nombrado](#nombrado)
     - [Reglas generales](#reglas-generales)
     - [Tipos](#tipos)
+        -[Class vs Struct](#class-vs-struct)
     - [Variables](#variables)
         - [Miembros de una clase](#miembros-de-una-clase)
         - [Miembros de una estructura](#miembros-de-una-estructura)
     - [Variables globales](#variables-globales)
     - [Funciones](#funciones-1)
     - [Ficheros](#ficheros)
+        - [Cabeceras](#cabeceras)
 - [Código](#código)
     - [Punteros y referencias](#punteros-y-referencias)
+        - [Referencias rvalue](#referencias-rvalue)
     - [Puntero nulo](#puntero-nulo)
 
 <!-- /TOC -->
@@ -32,6 +35,14 @@ Es obligatorio usar la codificación de carácteres UTF-8.
 ## Longitud de línea
 
 Cada línea de texto en el código debe tener como mucho 120 caracteres de largo.
+
+Si una determinada instrucción no puede ocupar menos longitud, se truncará con el carácter '\' en un
+separador lo más legible posible, y e indexada respecto al inicio de la intrucción.
+
+```c++
+very_long_object_name->very_long_method_name(very_long_variable_name, other_very_long_variable_name)\
+    .very_long_method_again();
+```
 
 ## Espaciado
 
@@ -164,17 +175,33 @@ del primer bloque.
 
 ```c++
 // Correcto
-if(!error)
+if (!error)
+{
+    return success;
+}
+
+// Incorrecto
+if (!error)
+    return success;
+
+// Incorrecto
+if (!error) return success;
+```
+
+El paréntesis de apertura de la lista de cláusulas debe encontrarse espaciado de la palabra reservada `if`.
+
+```c++
+// Correcto
+if (!error)
 {
     return success;
 }
 
 // Incorrecto
 if(!error)
+{
     return success;
-
-// Incorrecto
-if(!error) return success;
+}
 ```
 
 Es aconsejable romper condiciones muy largas tras conexiones lógicas && y || o con el objeto de agruparlas lógicamente.
@@ -200,6 +227,11 @@ else
 
 ## Namespaces
 
+Evitar el uso de "using namespace", en general. Excepto quizás, en ámbitos de método donde pueda clarificar mucho la
+lectura del mismo.
+Estrictamente prohibido usarlo en ficheros cabecera 
+para evitar dificultar la detección de errores por colisiones de nombres.
+
 El código periférico de un bloque ``namespace`` (y cualquiera anidado) no debe estar indentado.
 Ademas la llame de apertura debe estar en la misma línea que la declaración del ``namespace``.
 
@@ -223,7 +255,7 @@ class IPv4
 ## Reglas generales
 
 Los nombres tienen que ser descriptivos, intentando evitar las abreviaciones.
-El nombre debe comunicar de la manera más explicita que es la variable y la información pertinente para que un
+El nombre debe comunicar de la manera más explicita qué es la variable y la información pertinente para que un
 desarrollador pueda usarla apropiadamente.
 
 ```c++
@@ -251,6 +283,13 @@ void clean_space(
 }
 ```
 
+### Class vs Struct
+
+Deberá usarse el tipo *struct* únicamente para tipos que no realizan operaciones sobre sus miembros,
+es decir, tipos que únicamente almacenan datos, y quizás, provean métodos de acceso a sus miembros.
+Aunque se recomienda que las *struct* no tengan método alguno y sus miembros sean públicos, como
+ya son por defecto.
+Si hay más funcionalidad involucrada, deberá definirse como *class*.
 
 ## Variables
 
@@ -265,36 +304,36 @@ long row_count;
 ### Miembros de una clase
 
 Todos los miembros de una clase deben ser privados.
-Siguen las reglas de nombrado pero añadiendoles un subrayado al final.
+Siguen las reglas de nombrado pero añadiendoles `m_` al comienzo.
 Con esto se consigue saber facilmente al leer codigo cuando se cambia el estado de la clase.
 
 Los miembros que se quieran exponer de forma `public` o `protected` tendrá getters y setters.
-El nombre de estas funciones será el mismo que la variable pero sin el subrayado.
+El nombre de estas funciones será el mismo que la variable pero sin el prefijo `m_`.
 
 ```c++
 class Table
 {
     public:
 
-    void row_count(long count) { row_count_ = count; }
+    void row_count(long count) { m_row_count = count; }
 
-    long row_count() const { return row_count_; }
+    long row_count() const { return m_row_count; }
 
-    long& row_count() { return row_count_; }
+    long& row_count() { return m_row_count; }
 
-    void row_content(std::string& content) { row_content_ = content; }
+    void row_content(std::string& content) { m_row_content = content; }
 
-    void row_content(std::string&& content) { row_content_ = content; }
+    void row_content(std::string&& content) { m_row_content = content; }
 
-    const std::string& row_content() const { return row_content_; }
+    const std::string& row_content() const { return m_row_content; }
 
-    std::string& row_content() { return row_content_; }
+    std::string& row_content() { return m_row_content; }
 
     private:
 
-        long row_count_;
+        long m_row_count;
 
-        string row_content_;
+        string m_row_content;
 };
 ```
 
@@ -331,31 +370,75 @@ bool increase_one_row_above();
 
 ## Ficheros
 
-Las extensiones usadas para código C++ serán `.hpp` y `.cpp`.
+Las extensiones usadas para código C++ serán `.h`, `.hpp` y `.cpp`.
 Las extensiones usadas para código C serán `.h` y `.c`.
 
 El nombre de ficheros que contengan clases se nombrarán con el nombre de la clase, es decir, usando *CamelCase*.
 En otro caso seguirán la nomenglatura de minúsculas separada las palabras por `_`.
 
+### Cabeceras
+
+Los ficheros de cabecera deben nombrarse siempre con extensión `.h` o `.hpp` y ser autocontenidos, es decir, 
+que incluyan por sí mismos todos los ficheros cabecera de los que dependan.
+
+Debe evitarse el uso de *forward declaration* en la medida de lo posible y 
+en su lugar incluir la cabecera que lo declara.
+
 # Código
 
 ## Punteros y referencias
 
-Al declarar punteros y referecias, el simbolo ``*`` y ``&`` debe estar pegado al tipo.
-La excepción será cuando se definan dos variables juntas.
+Al declarar punteros y referecias, el simbolo ``*`` y ``&`` debe estar pegado al nombre para evitar confusiones.
 
 ```c++
 
 // Correct
-int* pointer;
-int& reference;
-void func(void* data, int& count);
-int *x, *y;
-
-// Incorrect
 int *pointer;
 int &reference;
+void func(void *data, int &count);
+int *x, *y, z; // No confusion here
+
+ // Incorrect
+int* pointer;
+int& reference;
 int* pointer, not_pointer; // Separate it for non confusion.
+```
+
+### Referencias rvalue
+
+Siempre que una clase adquiera cierta complejidad o se le de un gran uso interno, implementar
+constructor y asignación *move*.
+
+Cualquier implementación de *move* debe invalidar la referencia rvalue. Si no es el mecanismo deseado,
+implementar en su lugar *swap* o crear un método explícitamente para dicho mecanismo.
+
+Si una clase tiene recursos que no pueden ser copiados, su constructor y asignación *copy* 
+deben marcarse como *delete*, e implementar el constructor y asignación *move* si se desea.
+ 
+```c++
+class A
+{
+    protected:
+        Socket m_socket;
+        Buffer *m_buffer;
+    
+    A(A&& other)
+    {
+        m_socket = std::move(other.m_socket);
+        m_buffer = other.m_buffer;
+        other.m_buffer = nullptr;
+    }
+    
+    A& operator=(A&& other)
+    {
+        m_socket = std::move(other.m_socket);
+        m_buffer = other.m_buffer;
+        other.m_buffer = nullptr;
+    }
+    
+    A(const A&) = delete;
+    A& operator=(const A&) = delete;
+}
 ```
 
 ## Puntero nulo
