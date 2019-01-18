@@ -31,7 +31,7 @@ Es obligatorio usar la codificación de carácteres UTF-8.
 
 ## Longitud de línea
 
-Cada línea de texto en el código debe tener como mucho 120 caracteres de largo.
+Cada línea de texto en el código debe tener como mucho 120 carácteres de largo.
 
 ## Espaciado
 
@@ -201,7 +201,7 @@ else
 ## Namespaces
 
 El código periférico de un bloque ``namespace`` (y cualquiera anidado) no debe estar indentado.
-Ademas la llame de apertura debe estar en la misma línea que la declaración del ``namespace``.
+Además la llave de apertura debe estar en la misma línea que la declaración del ``namespace``.
 
 ```c++
 namespace network {
@@ -321,7 +321,7 @@ int g_active_threads = 0;
 
 ## Funciones
 
-El nombre de las funciones tienen que estar en minúsculas, con subrayado entre las palabras.
+El nombre de las funciones tiene que estar en minúsculas, con subrayado entre las palabras.
 
 ```c++
 void set_row_content(std::string content);
