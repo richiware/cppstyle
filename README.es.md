@@ -6,11 +6,14 @@
     - [Espaciado](#espaciado)
     - [Llaves](#llaves)
     - [Funciones](#funciones)
+    - [Templates](#templates)
     - [Condicionales](#condicionales)
+    - [Constructores](#constructores)
     - [Namespaces](#namespaces)
 - [Nombrado](#nombrado)
     - [Reglas generales](#reglas-generales)
     - [Tipos](#tipos)
+        - [Class vs Struct](#class-vs-struct)
     - [Variables](#variables)
         - [Miembros de una clase](#miembros-de-una-clase)
         - [Miembros de una estructura](#miembros-de-una-estructura)
@@ -20,6 +23,7 @@
 - [Código](#código)
     - [Punteros y referencias](#punteros-y-referencias)
     - [Puntero nulo](#puntero-nulo)
+- [TODO](#todo)
 
 <!-- /TOC -->
 
@@ -153,6 +157,26 @@ void function_with_the_name_so_large(int param1)
 }
 ```
 
+## Templates
+
+Los parámetros del template seguirán la normal de los parámetros de funciones, cada uno en una línea cuando sean más de
+uno.
+La declaración del template deberá ir en una línea diferente a la entidad que modifica.
+
+```c++
+template<class T>
+class Test
+{
+};
+
+template<
+    class T,
+    int Size>
+void function()
+{
+}
+```
+
 ## Condicionales
 
 Los condicionales deben de tener siempre llaves, incluso cuando no sean necesarias se deben de utilizar (por ejemplo,
@@ -164,18 +188,20 @@ del primer bloque.
 
 ```c++
 // Correcto
-if(!error)
+if (!error)
 {
     return success;
 }
 
 // Incorrecto
-if(!error)
+if (!error)
     return success;
 
 // Incorrecto
-if(!error) return success;
+if (!error) return success;
 ```
+
+Entre la palabra clave (`if`, `while`, `for`, etc..) y el parèntesis deberá haber un espacio.
 
 Es aconsejable romper condiciones muy largas tras conexiones lógicas && y || o con el objeto de agruparlas lógicamente.
 
@@ -194,6 +220,22 @@ else if (param1 != 0 || param2 == 0 &&
 {
 }
 else
+{
+}
+```
+
+## Constructores
+
+Los parámetros de inicialización irán en líneas separadas, y a excepción del primer parámetros que llevará delantes `:`,
+el resto llevará la coma delante.
+La indentación será de una identación (4 espacios).
+
+```c++
+Constructor(
+        int size,
+        std::string& msg)
+    : size_(size)
+    , msg_(msg)
 {
 }
 ```
@@ -217,6 +259,9 @@ class IPv4
 }
 }
 ```
+
+Usar `using namespace` está prohibido en los ficheros cabecera para evitar dificultar la detección de errores por
+colisiones de nombres.
 
 # Nombrado
 
@@ -251,6 +296,12 @@ void clean_space(
 }
 ```
 
+### Class vs Struct
+
+Deberá usarse el tipo *struct* únicamente para tipos que no realizan operaciones sobre sus miembros, es decir, tipos que
+únicamente almacenan datos, y quizás, provean métodos de acceso a sus miembros.
+Aunque se recomienda que las *struct* no tengan método alguno y sus miembros sean públicos, como ya son por defecto.
+Si hay más funcionalidad involucrada, deberá definirse como *class*.
 
 ## Variables
 
@@ -361,3 +412,11 @@ int* pointer, not_pointer; // Separate it for non confusion.
 ## Puntero nulo
 
 El valor nulo se debe declarar en C++ como ``nullptr``.
+
+
+# TODO
+
+Lambdas
+Operadores
+Uso de c++11
+Prácticas recomendadas.
