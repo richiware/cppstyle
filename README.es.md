@@ -109,8 +109,8 @@ Además las llaves son obligatorias incluso cuando solo hay una sola sentencia e
 
 ## Funciones
 
-A excepción de las funciones con un único parámetro, los parámetros de un método no deben estar en la misma línea que
-define al método y además cada parámetro debe estar en su propia línea.
+Los parámetros de un método no deben estar en la misma línea que
+define al método y cada parámetro debe estar en su propia línea.
 Además deben tener dos indentaciones (8 espacios) con respecto al método.
 Con ello se busca la facilidad de indentación en editores exclusivamente texto y la lectura de los parámetros.
 
@@ -121,9 +121,14 @@ Esto aplica tanto a la declaración como a la definiciones de la función.
 
 Las definiciones de los métodos tienen que empezar al principio de la línea.
 
-
 ```c++
 // Correcto
+void function(
+        int param1)
+{
+}
+
+// Incorrecto
 void function(int param1)
 {
 }
@@ -152,7 +157,8 @@ void function_with_the_name_so_large(
 }
 
 // Correcto
-void function_with_the_name_so_large(int param1)
+void function_with_the_name_so_large(
+        int param1)
 {
 }
 ```
@@ -327,15 +333,18 @@ class Table
 {
     public:
 
-    void row_count(long count) { row_count_ = count; }
+    void row_count(
+            long count) { row_count_ = count; }
 
     long row_count() const { return row_count_; }
 
     long& row_count() { return row_count_; }
 
-    void row_content(std::string& content) { row_content_ = content; }
+    void row_content(
+            std::string& content) { row_content_ = content; }
 
-    void row_content(std::string&& content) { row_content_ = content; }
+    void row_content(
+            std::string&& content) { row_content_ = content; }
 
     const std::string& row_content() const { return row_content_; }
 
@@ -375,7 +384,8 @@ int g_active_threads = 0;
 El nombre de las funciones tiene que estar en minúsculas, con subrayado entre las palabras.
 
 ```c++
-void set_row_content(std::string content);
+void set_row_content(
+        std::string content);
 
 bool increase_one_row_above();
 ```
