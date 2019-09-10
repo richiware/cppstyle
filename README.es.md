@@ -224,6 +224,29 @@ else
 }
 ```
 
+Si por límite de línea una cláusula debe ser partida en varias líneas, se indentará una vez más (+4 espacios).
+Si una o más cláusulas resultan poco legibles tras aplicar esta división, 
+dichas cláusulas se simplificarán como variables locales.
+
+Si el bloque condicional es demasiado largo o complejo, deberá crearse una función para realizar su funcionalidad.
+
+```c++
+// Incorrect
+if (very_long_parameter_name_->extremely_long_method_name(long_argument, long_argument2, very_long_cargument) && second_clausule->method_name(arg1, arg2))
+
+// Correct
+if (very_long_parameter_name_->extremely_long_method_name(
+        long_argument, long_argument2, very_long_cargument) 
+    && second_parameter_name->method_name(arg1, arg2))
+    
+// Correct
+bool first_clausule = very_long_parameter_name_->extremely_long_method_name(
+        long_argument, long_argument2, very_long_cargument);
+bool second_clausule = second_parameter_name->method_name(arg1, arg2);
+
+if (first_clausule && second_clausule)
+```
+
 ## Constructores
 
 Los parámetros de inicialización irán en líneas separadas, y a excepción del primer parámetros que llevará delantes `:`,
