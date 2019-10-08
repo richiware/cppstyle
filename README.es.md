@@ -280,9 +280,9 @@ namespace ip {
 
 class IPv4
 {
-    public:
+public:
 
-        long socket;
+    long socket;
 };
 
 }
@@ -332,6 +332,8 @@ Deberá usarse el tipo *struct* únicamente para tipos que no realizan operacion
 Aunque se recomienda que las *struct* no tengan método alguno y sus miembros sean públicos, como ya son por defecto.
 Si hay más funcionalidad involucrada, deberá definirse como *class*.
 
+Los modificadores de visibilidad (`public:`, `protected:` y `private:`) no se indentarán.
+
 ## Variables
 
 El nombre de las variables (incluyendo los argumentos de una función) y los miembros de tipos tienen que estar en
@@ -354,7 +356,7 @@ El nombre de estas funciones será el mismo que la variable pero sin el subrayad
 ```c++
 class Table
 {
-    public:
+public:
 
     void row_count(
             long count) { row_count_ = count; }
@@ -373,11 +375,11 @@ class Table
 
     std::string& row_content() { return row_content_; }
 
-    private:
+private:
 
-        long row_count_;
+    long row_count_;
 
-        string row_content_;
+    string row_content_;
 };
 ```
 
