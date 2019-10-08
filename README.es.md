@@ -236,8 +236,8 @@ if (very_long_parameter_name_->extremely_long_method_name(long_argument, long_ar
 
 // Correct
 if (very_long_parameter_name_->extremely_long_method_name(
-        long_argument, long_argument2, very_long_cargument) 
-    && second_parameter_name->method_name(arg1, arg2))
+        long_argument, long_argument2, very_long_cargument) &&
+    second_parameter_name->method_name(arg1, arg2))
     
 // Correct
 bool first_clausule = very_long_parameter_name_->extremely_long_method_name(
